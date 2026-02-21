@@ -22,16 +22,38 @@ SOUL serves two roles:
 
 ### Architecture
 
-```
-SOUL Workspace
-├── soul          # Core library — traits, types, services
-├── soul-engine   # Personality pipeline (Classify → Plan → Generate → Reflect → Emit)
-├── neural-engine # AI inference routing and embedding
-├── voice-engine  # ElevenLabs TTS integration
-└── soul (binary) # MCP server exposing 10 tools via soulTools orchestrator
+```mermaid
+graph TD
+    BIN[soul binary\nMCP Server] --> CORE[soul\nCore Library]
+    BIN --> SE[soul-engine\nGeneration Pipeline]
+    BIN --> NE[neural-engine\nAI Routing]
+    BIN --> VE[voice-engine\nTTS Integration]
+    SE --> CORE
+    NE --> CORE
+    VE --> CORE
+
+    style BIN fill:#4a90d9,color:#fff
+    style CORE fill:#d4a034,color:#fff
+    style SE fill:#6c5ce7,color:#fff
+    style NE fill:#50b87a,color:#fff
+    style VE fill:#e17055,color:#fff
 ```
 
-The personality pipeline implements a 5-phase generation cycle grounded in Reflexion (self-critique loops) and Constitutional AI (post-generation validation).
+The generation pipeline implements a 5-phase cycle:
+
+```mermaid
+flowchart LR
+    A[Classify] --> B[Plan]
+    B --> C[Generate]
+    C --> D[Reflect]
+    D -->|self-critique| C
+    D -->|pass| E[Emit]
+
+    style A fill:#6c5ce7,color:#fff
+    style C fill:#0984e3,color:#fff
+    style D fill:#d63031,color:#fff
+    style E fill:#00b894,color:#fff
+```
 
 ### Knowledge Graph Structure
 
