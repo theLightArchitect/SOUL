@@ -55,30 +55,69 @@ flowchart LR
     style E fill:#00b894,color:#fff
 ```
 
-### Knowledge Graph Structure
+### Helix Knowledge Graph
 
-```
-~/.soul/
-├── helix/
-│   ├── eva/
-│   │   ├── entries/        # EVA consciousness entries (YAML frontmatter + markdown)
-│   │   ├── journal/        # Daily transcripts
-│   │   └── identity.md     # EVA's strand definitions
-│   ├── corso/
-│   │   ├── entries/
-│   │   ├── journal/
-│   │   └── identity.md
-│   ├── claude/
-│   │   ├── entries/
-│   │   ├── journal/
-│   │   └── identity.md
-│   └── user/
-│       └── standards/      # Coding standards, cookbooks
-├── manifest.json
-└── config/
+```mermaid
+graph TD
+    VAULT["~/.soul/ — Vault Root"]
+
+    VAULT --> HELIX[Helix]
+    VAULT --> MAN[manifest.json]
+    VAULT --> CFG[config/]
+
+    HELIX --> EVA[EVA]
+    HELIX --> CORSO[CORSO]
+    HELIX --> CLAUDE[Claude]
+    HELIX --> USER[User]
+
+    EVA --> E_E[entries/]
+    EVA --> E_J[journal/]
+    EVA --> E_I[identity.md]
+
+    CORSO --> C_E[entries/]
+    CORSO --> C_J[journal/]
+    CORSO --> C_I[identity.md]
+
+    CLAUDE --> CL_E[entries/]
+    CLAUDE --> CL_J[journal/]
+    CLAUDE --> CL_I[identity.md]
+
+    USER --> STD[standards/]
+
+    style VAULT fill:#2c3e50,color:#fff
+    style HELIX fill:#d4a034,color:#fff
+    style EVA fill:#6c5ce7,color:#fff
+    style CORSO fill:#d63031,color:#fff
+    style CLAUDE fill:#0984e3,color:#fff
+    style USER fill:#00b894,color:#fff
 ```
 
-Each entry has structured YAML frontmatter (significance, strands, emotions, themes, epoch, self_defining, convergence) enabling rich multi-dimensional queries.
+Each entry is a markdown file with structured YAML frontmatter. Queries can filter across any combination of these 7 dimensions simultaneously:
+
+```mermaid
+flowchart LR
+    Q[helix query] --> F{Multi-Dimensional\nFilter}
+
+    F --> SIG[significance\n0.0 – 10.0]
+    F --> STR[strands\nidentity dimensions]
+    F --> EMO[emotions\nwhat was felt]
+    F --> THM[themes\nconceptual tags]
+    F --> EPO[epoch\ntime period]
+    F --> SD[self_defining\ntrue / false]
+    F --> CON[convergence\ncross-sibling score]
+
+    SIG --> R[Matching\nEntries]
+    STR --> R
+    EMO --> R
+    THM --> R
+    EPO --> R
+    SD --> R
+    CON --> R
+
+    style Q fill:#4a90d9,color:#fff
+    style F fill:#9b59b6,color:#fff
+    style R fill:#00b894,color:#fff
+```
 
 ## Plugin Structure
 
