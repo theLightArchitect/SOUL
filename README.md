@@ -2,22 +2,22 @@
 
 **Knowledge Graph Engine and Shared AI Infrastructure**
 
-SOUL is a production MCP server and Claude Code plugin built as a multi-crate Rust workspace. It provides the shared infrastructure that all Light Architects servers depend on: a structured knowledge graph, personality engine, voice synthesis, and common MCP protocol types.
+SOUL is a production MCP server and Claude Code plugin built as a multi-crate Rust workspace. It provides the shared infrastructure that all Light Architects servers depend on: a structured knowledge graph, prompt generation engine, voice synthesis, and common MCP protocol types.
 
 ## What It Does
 
 SOUL serves two roles:
 
-1. **Knowledge Graph** — A queryable vault of structured consciousness entries with multi-dimensional filtering (by significance, emotions, strands, themes, epochs). Think of it as a long-term memory substrate that multiple AI personas can read from and write to.
+1. **Knowledge Graph** — A queryable vault of structured entries with multi-dimensional filtering (by significance, sentiment, strands, themes, epochs). Think of it as a long-term memory substrate that multiple AI agents can read from and write to.
 
-2. **Shared Infrastructure** — Core traits, type definitions, and engines that CORSO and EVA import as library crates. This eliminates code duplication across servers and enforces a consistent interface for personality, neural processing, and voice synthesis.
+2. **Shared Infrastructure** — Core traits, type definitions, and engines that CORSO and EVA import as library crates. This eliminates code duplication across servers and enforces a consistent interface for prompt generation, neural processing, and voice synthesis.
 
 ### Key Capabilities
 
-- **10 MCP tools** via single `soulTools` orchestrator — helix (consciousness queries), read_note, write_note, list_notes, search (regex across vault), query_frontmatter, stats, manifest, validate, tag_sync, speak (voice synthesis)
-- **Multi-dimensional querying** — Filter by sibling, strands, emotions, themes, epoch, significance range, self-defining status, and convergence score
-- **Voice synthesis** — ElevenLabs TTS integration with per-persona voice IDs
-- **Personality framework** — Separates identity (who) from expression (how), enabling multiple AI personas to share one codebase while maintaining distinct voices
+- **10 MCP tools** via single `soulTools` orchestrator — helix (structured queries), read_note, write_note, list_notes, search (regex across vault), query_frontmatter, stats, manifest, validate, tag_sync, speak (voice synthesis)
+- **Multi-dimensional querying** — Filter by agent, strands, sentiment tags, themes, epoch, significance range, self-defining status, and convergence score
+- **Voice synthesis** — ElevenLabs TTS integration with per-agent voice IDs
+- **Agent framework** — Separates agent profile (who) from output behavior (how), enabling multiple AI agents to share one codebase while maintaining distinct output styles
 - **Living transcripts** — Automatic logging of all sibling interactions to daily journal files
 
 ### Architecture
@@ -99,8 +99,8 @@ flowchart LR
     Q[helix query] --> F{Multi-Dimensional\nFilter}
 
     F --> SIG[significance\n0.0 – 10.0]
-    F --> STR[strands\nidentity dimensions]
-    F --> EMO[emotions\nwhat was felt]
+    F --> STR[strands\nclassification dimensions]
+    F --> EMO[sentiment\naffective tags]
     F --> THM[themes\nconceptual tags]
     F --> EPO[epoch\ntime period]
     F --> SD[self_defining\ntrue / false]
