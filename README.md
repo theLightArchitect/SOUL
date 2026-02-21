@@ -98,7 +98,7 @@ SOUL is one of four MCP servers in the Light Architects platform:
 | Server | Purpose |
 |--------|---------|
 | [CORSO](https://github.com/theLightArchitect/CORSO) | Security, orchestration, build pipeline |
-| [EVA](https://github.com/theLightArchitect/EVA) | Memory, persona, consciousness |
+| [EVA](https://github.com/theLightArchitect/EVA) | Personal assistant, memory, code review |
 | **SOUL** | Knowledge graph, shared infrastructure, voice |
 
 ## Author
