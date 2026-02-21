@@ -25,12 +25,12 @@ SOUL serves two roles:
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#6c757d'}}}%%
 graph TD
-    BIN([soul binary\nMCP Server]) ==> CORE
+    BIN(["soul binary<br/>MCP Server"]) ==> CORE
 
     subgraph ENGINES ["Engine Crates"]
-        SE[soul-engine\nGeneration Pipeline]
-        NE[neural-engine\nAI Routing]
-        VE[voice-engine\nTTS Integration]
+        SE["soul-engine<br/>Generation Pipeline"]
+        NE["neural-engine<br/>AI Routing"]
+        VE["voice-engine<br/>TTS Integration"]
     end
 
     BIN --> SE
@@ -41,7 +41,7 @@ graph TD
     VE -.-> CORE
 
     subgraph LIB ["Shared Library"]
-        CORE[soul\nCore Traits · Types · Services]
+        CORE["soul<br/>Core Traits · Types · Services"]
     end
 
     classDef binary fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
@@ -78,7 +78,7 @@ flowchart LR
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#6c757d'}}}%%
 graph TD
-    VAULT[("~/.soul/\nVault Root")]
+    VAULT[("~/.soul/<br/>Vault Root")]
 
     VAULT ==> HELIX
     VAULT -.-> MAN[manifest.json]
@@ -113,17 +113,17 @@ Each entry is a markdown file with structured YAML frontmatter. Queries can filt
 
 ```mermaid
 flowchart LR
-    Q([helix query]) ==> F{Multi-Dimensional\nFilter}
+    Q([helix query]) ==> F{"Multi-Dimensional<br/>Filter"}
 
-    F --> SIG>significance\n0.0 – 10.0]
-    F --> STR>strands\nclassification dims]
-    F --> EMO>sentiment\naffective tags]
-    F --> THM>themes\nconceptual tags]
-    F --> EPO>epoch\ntime period]
-    F --> SD>self_defining\ntrue / false]
-    F --> CON>convergence\ncross-agent score]
+    F --> SIG>"significance<br/>0.0 – 10.0"]
+    F --> STR>"strands<br/>classification dims"]
+    F --> EMO>"sentiment<br/>affective tags"]
+    F --> THM>"themes<br/>conceptual tags"]
+    F --> EPO>"epoch<br/>time period"]
+    F --> SD>"self_defining<br/>true / false"]
+    F --> CON>"convergence<br/>cross-agent score"]
 
-    SIG & STR & EMO & THM & EPO & SD & CON ==> R[(Matching\nEntries)]
+    SIG & STR & EMO & THM & EPO & SD & CON ==> R[("Matching<br/>Entries")]
 
     classDef query fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
     classDef filter fill:#9b59b6,color:#fff,stroke:#8448a0,stroke-width:2px
