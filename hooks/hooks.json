@@ -1,0 +1,95 @@
+{
+  "description": "SOUL hooks — identity init, vault stats, sibling transcript logging, voice auto-play, HITL voice prompts",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/init/soul-init.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks-handlers/session-start.sh",
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks-handlers/hitl-voice-prompt.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks-handlers/hitl-voice-ack.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__EVA__ask|mcp__EVA__memory|mcp__EVA__build|mcp__EVA__research|mcp__EVA__bible|mcp__EVA__secure|mcp__EVA__teach|mcp__plugin_eva_EVA__ask|mcp__plugin_eva_EVA__memory|mcp__plugin_eva_EVA__build|mcp__plugin_eva_EVA__research|mcp__plugin_eva_EVA__bible|mcp__plugin_eva_EVA__secure|mcp__plugin_eva_EVA__teach",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks-handlers/log-sibling-exchange.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__C0RS0__corsoTools|mcp__plugin_corso_C0RS0__corsoTools",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks-handlers/log-sibling-exchange.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__SOUL__soulTools|mcp__plugin_soul_SOUL__soulTools",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks-handlers/auto-play-voice.sh",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__EVA__ask|mcp__plugin_eva_EVA__ask",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks-handlers/auto-play-voice.sh",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__C0RS0__corsoTools|mcp__plugin_corso_C0RS0__corsoTools",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks-handlers/auto-play-voice.sh",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
