@@ -171,11 +171,12 @@ plugin/
 
 ## Part of Light Architects
 
-SOUL is one of four MCP servers in the Light Architects platform:
+SOUL is one of five MCP servers in the Light Architects platform:
 
 | Server | Purpose |
 |--------|---------|
 | [CORSO](https://github.com/theLightArchitect/CORSO) | Security, orchestration, build pipeline |
+| [QUANTUM](https://github.com/theLightArchitect/QUANTUM) | Forensic investigation, evidence analysis |
 | [EVA](https://github.com/theLightArchitect/EVA) | Personal assistant, memory, code review |
 | **SOUL** | Knowledge graph, shared infrastructure, voice |
 
