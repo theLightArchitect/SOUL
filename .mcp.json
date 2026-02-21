@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "SOUL": {
+      "command": "${HOME}/.soul/.config/bin/soul",
+      "env": {
+        "RUST_LOG": "info",
+        "SOUL_ALLOW_WRITE": "true",
+        "ELEVENLABS_API_KEY": "${ELEVENLABS_API_KEY}"
+      }
+    }
+  }
+}
