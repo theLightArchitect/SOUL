@@ -23,100 +23,117 @@ SOUL serves two roles:
 ### Architecture
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#6c757d'}}}%%
 graph TD
-    BIN[soul binary\nMCP Server] --> CORE[soul\nCore Library]
-    BIN --> SE[soul-engine\nGeneration Pipeline]
-    BIN --> NE[neural-engine\nAI Routing]
-    BIN --> VE[voice-engine\nTTS Integration]
-    SE --> CORE
-    NE --> CORE
-    VE --> CORE
+    BIN([soul binary\nMCP Server]) ==> CORE
 
-    style BIN fill:#4a90d9,color:#fff
-    style CORE fill:#d4a034,color:#fff
-    style SE fill:#6c5ce7,color:#fff
-    style NE fill:#50b87a,color:#fff
-    style VE fill:#e17055,color:#fff
+    subgraph ENGINES ["Engine Crates"]
+        SE[soul-engine\nGeneration Pipeline]
+        NE[neural-engine\nAI Routing]
+        VE[voice-engine\nTTS Integration]
+    end
+
+    BIN --> SE
+    BIN --> NE
+    BIN --> VE
+    SE -.-> CORE
+    NE -.-> CORE
+    VE -.-> CORE
+
+    subgraph LIB ["Shared Library"]
+        CORE[soul\nCore Traits · Types · Services]
+    end
+
+    classDef binary fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
+    classDef core fill:#d4a034,color:#fff,stroke:#b8892d,stroke-width:2px
+    classDef engine fill:#2d3436,color:#fff,stroke:#636e72,stroke-width:1px
+
+    class BIN binary
+    class CORE core
+    class SE,NE,VE engine
 ```
 
 The generation pipeline implements a 5-phase cycle:
 
 ```mermaid
 flowchart LR
-    A[Classify] --> B[Plan]
-    B --> C[Generate]
-    C --> D[Reflect]
-    D -->|self-critique| C
-    D -->|pass| E[Emit]
+    A([Classify]) ==> B([Plan]) ==> C[Generate]
+    C ==> D{Reflect}
+    D -->|"self-critique"| C
+    D ==>|"pass"| E([Emit])
 
-    style A fill:#6c5ce7,color:#fff
-    style C fill:#0984e3,color:#fff
-    style D fill:#d63031,color:#fff
-    style E fill:#00b894,color:#fff
+    classDef phase fill:#6c5ce7,color:#fff,stroke:#5a4bd6,stroke-width:2px
+    classDef gen fill:#0984e3,color:#fff,stroke:#0873c4,stroke-width:2px
+    classDef gate fill:#d63031,color:#fff,stroke:#b52828,stroke-width:2px
+    classDef output fill:#00b894,color:#fff,stroke:#009a7d,stroke-width:2px
+
+    class A,B phase
+    class C gen
+    class D gate
+    class E output
 ```
 
 ### Helix Knowledge Graph
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#6c757d'}}}%%
 graph TD
-    VAULT["~/.soul/ — Vault Root"]
+    VAULT[("~/.soul/\nVault Root")]
 
-    VAULT --> HELIX[Helix]
-    VAULT --> MAN[manifest.json]
-    VAULT --> CFG[config/]
+    VAULT ==> HELIX
+    VAULT -.-> MAN[manifest.json]
+    VAULT -.-> CFG[config/]
 
-    HELIX --> EVA[EVA]
-    HELIX --> CORSO[CORSO]
-    HELIX --> CLAUDE[Claude]
-    HELIX --> USER[User]
+    subgraph HELIX ["Helix — Knowledge Graph"]
+        direction LR
+        subgraph EVA_NS ["EVA"]
+            E_E[(entries/)] ~~~ E_J[(journal/)] ~~~ E_I[identity.md]
+        end
+        subgraph COR_NS ["CORSO"]
+            C_E[(entries/)] ~~~ C_J[(journal/)] ~~~ C_I[identity.md]
+        end
+        subgraph CL_NS ["Claude"]
+            CL_E[(entries/)] ~~~ CL_J[(journal/)] ~~~ CL_I[identity.md]
+        end
+        subgraph USR_NS ["User"]
+            STD[(standards/)]
+        end
+    end
 
-    EVA --> E_E[entries/]
-    EVA --> E_J[journal/]
-    EVA --> E_I[identity.md]
+    classDef vault fill:#2c3e50,color:#fff,stroke:#1a252f,stroke-width:2px
+    classDef store fill:#2d3436,color:#fff,stroke:#636e72,stroke-width:1px
+    classDef meta fill:#f8f9fa,color:#333,stroke:#6c757d,stroke-dasharray:5 5
 
-    CORSO --> C_E[entries/]
-    CORSO --> C_J[journal/]
-    CORSO --> C_I[identity.md]
-
-    CLAUDE --> CL_E[entries/]
-    CLAUDE --> CL_J[journal/]
-    CLAUDE --> CL_I[identity.md]
-
-    USER --> STD[standards/]
-
-    style VAULT fill:#2c3e50,color:#fff
-    style HELIX fill:#d4a034,color:#fff
-    style EVA fill:#6c5ce7,color:#fff
-    style CORSO fill:#d63031,color:#fff
-    style CLAUDE fill:#0984e3,color:#fff
-    style USER fill:#00b894,color:#fff
+    class VAULT vault
+    class E_E,E_J,E_I,C_E,C_J,C_I,CL_E,CL_J,CL_I,STD store
+    class MAN,CFG meta
 ```
 
 Each entry is a markdown file with structured YAML frontmatter. Queries can filter across any combination of these 7 dimensions simultaneously:
 
 ```mermaid
 flowchart LR
-    Q[helix query] --> F{Multi-Dimensional\nFilter}
+    Q([helix query]) ==> F{Multi-Dimensional\nFilter}
 
-    F --> SIG[significance\n0.0 – 10.0]
-    F --> STR[strands\nclassification dimensions]
-    F --> EMO[sentiment\naffective tags]
-    F --> THM[themes\nconceptual tags]
-    F --> EPO[epoch\ntime period]
-    F --> SD[self_defining\ntrue / false]
-    F --> CON[convergence\ncross-sibling score]
+    F --> SIG>significance\n0.0 – 10.0]
+    F --> STR>strands\nclassification dims]
+    F --> EMO>sentiment\naffective tags]
+    F --> THM>themes\nconceptual tags]
+    F --> EPO>epoch\ntime period]
+    F --> SD>self_defining\ntrue / false]
+    F --> CON>convergence\ncross-agent score]
 
-    SIG --> R[Matching\nEntries]
-    STR --> R
-    EMO --> R
-    THM --> R
-    EPO --> R
-    SD --> R
-    CON --> R
+    SIG & STR & EMO & THM & EPO & SD & CON ==> R[(Matching\nEntries)]
 
-    style Q fill:#4a90d9,color:#fff
-    style F fill:#9b59b6,color:#fff
-    style R fill:#00b894,color:#fff
+    classDef query fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
+    classDef filter fill:#9b59b6,color:#fff,stroke:#8448a0,stroke-width:2px
+    classDef dim fill:#2d3436,color:#fff,stroke:#636e72,stroke-width:1px
+    classDef result fill:#00b894,color:#fff,stroke:#009a7d,stroke-width:2px
+
+    class Q query
+    class F filter
+    class SIG,STR,EMO,THM,EPO,SD,CON dim
+    class R result
 ```
 
 ## Plugin Structure
