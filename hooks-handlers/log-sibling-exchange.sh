@@ -171,7 +171,7 @@ cat >> "$TRANSCRIPT" << ENTRY
 
 ### ${TIMESTAMP} | ${DISPLAY_ACTION}
 
-**Kevin**: ${USER_MSG}
+**User**: ${USER_MSG}
 
 **${DISPLAY_NAME}**: ${SIBLING_RESPONSE}
 
