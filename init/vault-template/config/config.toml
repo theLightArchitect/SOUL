@@ -1,0 +1,9 @@
+# SOUL Configuration
+# Edit to customize your vault behavior
+
+[vault]
+root = "~/.soul"
+
+[voice]
+# ElevenLabs TTS — set ELEVENLABS_API_KEY env var to enable
+enabled = false
