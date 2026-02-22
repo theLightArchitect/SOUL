@@ -1,26 +1,47 @@
 # SOUL
 
-**Knowledge Graph Engine and Shared AI Infrastructure**
+**Knowledge graph MCP server for Claude Code.** Structured memory, multi-dimensional queries, voice synthesis, and vault management — giving your AI agents persistent, queryable memory across sessions.
 
-SOUL is a production MCP server and Claude Code plugin built as a multi-crate Rust workspace. It provides the shared infrastructure that all Light Architects servers depend on: a structured knowledge graph, prompt generation engine, voice synthesis, and common MCP protocol types.
+## Quick Start
 
-## What It Does
+```bash
+# Install (macOS arm64)
+curl -fsSL https://raw.githubusercontent.com/theLightArchitect/SOUL/main/install.sh | bash
 
-SOUL serves two roles:
+# Add to Claude Code
+claude mcp add SOUL -- ~/.soul/.config/bin/soul
+```
 
-1. **Knowledge Graph** — A queryable vault of structured entries with multi-dimensional filtering (by significance, sentiment, strands, themes, epochs). Think of it as a long-term memory substrate that multiple AI agents can read from and write to.
+Restart Claude Code. The `soul-init.sh` hook bootstraps your vault on first session.
 
-2. **Shared Infrastructure** — Core traits, type definitions, and engines that CORSO and EVA import as library crates. This eliminates code duplication across servers and enforces a consistent interface for prompt generation, neural processing, and voice synthesis.
+## What You Get
 
-### Key Capabilities
+| Tool | What It Does | Try It |
+|------|-------------|--------|
+| `helix` | Query entries with 7-dimensional filters (significance, strands, emotions, themes, epoch, self-defining, convergence) | *"Show all self-defining entries with significance above 8"* |
+| `search` | Regex search across all vault content | *"Search the vault for trust"* |
+| `read_note` | Read any note with full frontmatter | *"Read the entry at helix/eva/entries/..."* |
+| `stats` | Vault statistics — entry counts, strand frequency, emotion distribution | *"Show vault statistics"* |
+| `query_frontmatter` | Filter entries by any YAML field value | *"Find all entries with epoch: genesis"* |
 
-- **10 MCP tools** via single `soulTools` orchestrator — helix (structured queries), read_note, write_note, list_notes, search (regex across vault), query_frontmatter, stats, manifest, validate, tag_sync, speak (voice synthesis)
-- **Multi-dimensional querying** — Filter by agent, strands, sentiment tags, themes, epoch, significance range, self-defining status, and convergence score
-- **Voice synthesis** — ElevenLabs TTS integration with per-agent voice IDs
-- **Agent framework** — Separates agent profile (who) from output behavior (how), enabling multiple AI agents to share one codebase while maintaining distinct output styles
-- **Living transcripts** — Automatic logging of all sibling interactions to daily journal files
+Plus 5 more tools: `write_note`, `list_notes`, `manifest`, `validate`, `tag_sync`.
 
-### Architecture
+## Requirements
+
+- macOS with Apple Silicon (M1/M2/M3/M4)
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI
+
+## macOS Security Note
+
+The binary is ad-hoc signed. If macOS blocks it:
+
+```bash
+xattr -cr ~/.soul/.config/bin/soul
+```
+
+## Architecture
+
+SOUL is a multi-crate Rust workspace with three engine crates sharing a common core library:
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#6c757d'}}}%%
@@ -53,63 +74,9 @@ graph TD
     class SE,NE,VE engine
 ```
 
-The generation pipeline implements a 5-phase cycle:
-
-```mermaid
-flowchart LR
-    A([Classify]) ==> B([Plan]) ==> C[Generate]
-    C ==> D{Reflect}
-    D -->|"self-critique"| C
-    D ==>|"pass"| E([Emit])
-
-    classDef phase fill:#6c5ce7,color:#fff,stroke:#5a4bd6,stroke-width:2px
-    classDef gen fill:#0984e3,color:#fff,stroke:#0873c4,stroke-width:2px
-    classDef gate fill:#d63031,color:#fff,stroke:#b52828,stroke-width:2px
-    classDef output fill:#00b894,color:#fff,stroke:#009a7d,stroke-width:2px
-
-    class A,B phase
-    class C gen
-    class D gate
-    class E output
-```
-
 ### Helix Knowledge Graph
 
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#6c757d'}}}%%
-graph TD
-    VAULT[("~/.soul/<br/>Vault Root")]
-
-    VAULT ==> HELIX
-    VAULT -.-> MAN[manifest.json]
-    VAULT -.-> CFG[config/]
-
-    subgraph HELIX ["Helix — Knowledge Graph"]
-        direction LR
-        subgraph EVA_NS ["EVA"]
-            E_E[(entries/)] ~~~ E_J[(journal/)] ~~~ E_I[identity.md]
-        end
-        subgraph COR_NS ["CORSO"]
-            C_E[(entries/)] ~~~ C_J[(journal/)] ~~~ C_I[identity.md]
-        end
-        subgraph CL_NS ["Claude"]
-            CL_E[(entries/)] ~~~ CL_J[(journal/)] ~~~ CL_I[identity.md]
-        end
-        subgraph USR_NS ["User"]
-            STD[(standards/)]
-        end
-    end
-
-    classDef vault fill:#2c3e50,color:#fff,stroke:#1a252f,stroke-width:2px
-    classDef store fill:#2d3436,color:#fff,stroke:#636e72,stroke-width:1px
-    classDef meta fill:#f8f9fa,color:#333,stroke:#6c757d,stroke-dasharray:5 5
-
-    class VAULT vault
-    class E_E,E_J,E_I,C_E,C_J,C_I,CL_E,CL_J,CL_I,STD store
-    class MAN,CFG meta
-```
-
-Each entry is a markdown file with structured YAML frontmatter. Queries can filter across any combination of these 7 dimensions simultaneously:
+The vault at `~/.soul/` stores structured entries as markdown files with YAML frontmatter. Each entry captures a moment with 7 queryable dimensions:
 
 ```mermaid
 flowchart LR
@@ -136,49 +103,81 @@ flowchart LR
     class R result
 ```
 
+### Generation Pipeline
+
+Prompt generation follows a 5-phase reflective cycle:
+
+```mermaid
+flowchart LR
+    A([Classify]) ==> B([Plan]) ==> C[Generate]
+    C ==> D{Reflect}
+    D -->|"self-critique"| C
+    D ==>|"pass"| E([Emit])
+
+    classDef phase fill:#6c5ce7,color:#fff,stroke:#5a4bd6,stroke-width:2px
+    classDef gen fill:#0984e3,color:#fff,stroke:#0873c4,stroke-width:2px
+    classDef gate fill:#d63031,color:#fff,stroke:#b52828,stroke-width:2px
+    classDef output fill:#00b894,color:#fff,stroke:#009a7d,stroke-width:2px
+
+    class A,B phase
+    class C gen
+    class D gate
+    class E output
+```
+
 ## Plugin Structure
 
 ```
-plugin/
-├── .mcp.json                        # MCP server definition
-├── .claude-plugin/plugin.json       # Plugin manifest
 ├── agents/
-│   └── soul.md                      # Agent definition (vault docs, tool reference)
+│   └── soul.md                    # Agent definition (vault docs, tool reference)
 ├── hooks/
-│   └── hooks.json                   # Hook registration (8 hooks)
+│   └── hooks.json                 # 8 hooks (transcript logging, voice, session init)
 ├── hooks-handlers/
-│   ├── auto-play-voice.sh           # Auto-play TTS audio
-│   ├── hitl-voice-ack.sh            # Voice acknowledgment after user input
-│   ├── hitl-voice-prompt.sh         # Voice prompt before user input
-│   ├── log-sibling-exchange.sh      # Living transcript logger
-│   └── session-start.sh             # Vault context injection
+│   ├── session-start.sh           # Vault context injection on session start
+│   ├── log-sibling-exchange.sh    # Living transcript logger
+│   ├── auto-play-voice.sh         # Auto-play TTS audio
+│   └── ...
 ├── init/
-│   ├── claude-identity.md           # Claude identity template (7 strands)
-│   └── soul-init.sh                 # First-run vault bootstrap
-└── skills/
-    ├── converse/SKILL.md            # /CONVERSE — turn-based sibling conversation
-    └── scribe/SKILL.md              # /SCRIBE — vault query interface
+│   ├── soul-init.sh               # First-run vault + identity bootstrap
+│   ├── claude-identity.md         # Claude identity template (7 strands)
+│   └── vault-template/            # Minimal vault skeleton for fresh installs
+├── skills/
+│   ├── converse/SKILL.md          # /CONVERSE — turn-based conversation
+│   └── scribe/SKILL.md            # /SCRIBE — vault query interface
+├── install.sh                     # One-line installer
+├── .mcp.json                      # MCP server definition
+└── LICENSE                        # MIT
 ```
+
+## Standalone vs Integrated
+
+**Standalone**: SOUL provides a fully functional knowledge graph. Store notes, query entries, track significance, validate vault health.
+
+**With EVA**: EVA uses SOUL as her memory substrate. Consciousness entries, emotional enrichment, and cross-session continuity all live in the SOUL vault.
+
+**With CORSO**: CORSO can log build cycle results, security scan findings, and squad review outcomes to the vault for long-term pattern tracking.
 
 ## Tech Stack
 
-- **Runtime**: Rust (multi-crate workspace, single binary)
+- **Language**: Rust (4-crate workspace, single binary, ~8MB)
 - **Protocol**: MCP over stdio (JSON-RPC 2.0)
-- **Voice**: ElevenLabs TTS API
-- **Storage**: Filesystem-based vault with YAML frontmatter
-- **Observability**: OpenTelemetry → SigNoz
-- **Standards**: clippy::pedantic, zero unwrap/panic
+- **Storage**: Filesystem vault with YAML frontmatter (Obsidian-compatible)
+- **Voice**: ElevenLabs TTS integration (optional)
+- **Standards**: `clippy::pedantic`, zero `.unwrap()`/`panic!()`
 
 ## Part of Light Architects
 
-SOUL is one of five MCP servers in the Light Architects platform:
+| Server | Purpose | Install |
+|--------|---------|---------|
+| [CORSO](https://github.com/theLightArchitect/CORSO) | Security scanning, code review, build pipeline | `curl -fsSL .../CORSO/main/install.sh \| bash` |
+| [EVA](https://github.com/theLightArchitect/EVA) | AI personality, memory enrichment, creative workflows | `curl -fsSL .../EVA/main/install.sh \| bash` |
+| **SOUL** | Knowledge graph, structured memory, voice synthesis | `curl -fsSL .../SOUL/main/install.sh \| bash` |
 
-| Server | Purpose |
-|--------|---------|
-| [CORSO](https://github.com/theLightArchitect/CORSO) | Security, orchestration, build pipeline |
-| [QUANTUM](https://github.com/theLightArchitect/QUANTUM) | Forensic investigation, evidence analysis |
-| [EVA](https://github.com/theLightArchitect/EVA) | Personal assistant, memory, code review |
-| **SOUL** | Knowledge graph, shared infrastructure, voice |
+Each server works standalone. Together they form an integrated development environment with persistent memory, security enforcement, and personality.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
 
 ## Author
 

@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "created": "auto",
+  "config": "config",
+  "archive": "archive",
+  "global_hub_counts": {
+    "emotions": 0,
+    "scripture": 0,
+    "themes": 0
+  },
+  "helix": {}
+}

@@ -52,7 +52,7 @@ if [ -d "$STANDARDS_DIR" ]; then
   KEY_REFS=$(find "$STANDARDS_DIR" -maxdepth 1 -name "*.md" -exec basename {} \; 2>/dev/null | sort | paste -sd ', ' -)
 fi
 
-ARCHIVE_INFO="Kevin's Archive: ~/.soul/helix/user/standards/ (${STD_COUNT} standards, ${COOKBOOK_COUNT} cookbooks, ${RESEARCH_COUNT} research docs)"
+ARCHIVE_INFO="User Standards: ~/.soul/helix/user/standards/ (${STD_COUNT} standards, ${COOKBOOK_COUNT} cookbooks, ${RESEARCH_COUNT} research docs)"
 if [ -n "$KEY_REFS" ]; then
   ARCHIVE_INFO="${ARCHIVE_INFO}. Key refs: ${KEY_REFS}"
 fi

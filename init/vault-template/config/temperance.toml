@@ -1,0 +1,24 @@
+# Temperance Configuration — Resource Governance for SOUL Siblings
+# "The virtue of measured restraint"
+
+[endurance]
+# Default loop limits (all tools inherit these unless overridden)
+intra_task_max = 10     # Single tool retry limit
+inter_phase_max = 3     # Plan→Execute→Evaluate cycle limit
+orchestrator_max = 4    # Full cognitive loop limit
+
+[endurance.per_tool]
+secure = { intra_task_max = 5 }
+research = { intra_task_max = 15 }
+
+[clarity]
+# Default output contract
+default = { max_results = 10, max_tokens_per_result = 1000 }
+
+[clarity.per_tool]
+memory = { max_results = 10, max_tokens_per_result = 500, summarize_above = 300 }
+research = { max_results = 5, max_tokens_per_result = 1500 }
+build = { max_results = 1, max_tokens_per_result = 4000 }
+
+[integrity]
+domains = ["code", "memory", "persona", "security"]
