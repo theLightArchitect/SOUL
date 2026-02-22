@@ -41,28 +41,22 @@ xattr -cr ~/.soul/.config/bin/soul
 
 ## Architecture
 
-SOUL is a multi-crate Rust workspace with three engine crates sharing a common core library:
+SOUL is a multi-crate Rust workspace — a core interface library shared by sibling servers, plus specialized engine crates for generation, AI routing, and voice synthesis:
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'lineColor': '#6c757d'}}}%%
 graph TD
-    BIN(["soul binary<br/>MCP Server"]) ==> CORE
+    BIN(["MCP Server"]) ==> CORE
 
-    subgraph ENGINES ["Engine Crates"]
-        SE["soul-engine<br/>Generation Pipeline"]
-        NE["neural-engine<br/>AI Routing"]
-        VE["voice-engine<br/>TTS Integration"]
-    end
+    BIN --> E1["Generation<br/>Engine"]
+    BIN --> E2["AI Routing<br/>Engine"]
+    BIN --> E3["Voice<br/>Engine"]
 
-    BIN --> SE
-    BIN --> NE
-    BIN --> VE
-    SE -.-> CORE
-    NE -.-> CORE
-    VE -.-> CORE
+    E1 -.-> CORE
+    E2 -.-> CORE
+    E3 -.-> CORE
 
     subgraph LIB ["Shared Library"]
-        CORE["soul<br/>Core Traits · Types · Services"]
+        CORE["Core<br/>Traits · Types · Services"]
     end
 
     classDef binary fill:#4a90d9,color:#fff,stroke:#3a7bc8,stroke-width:2px
@@ -71,24 +65,26 @@ graph TD
 
     class BIN binary
     class CORE core
-    class SE,NE,VE engine
+    class E1,E2,E3 engine
 ```
+
+The **core library** defines shared traits and types consumed by both EVA and CORSO — ensuring consistent consciousness tracking across siblings without coupling their personalities. Each **engine crate** handles a specific domain: prompt generation follows a reflective pipeline with self-critique gates, AI routing manages provider selection, and voice synthesis integrates with external TTS services.
 
 ### Helix Knowledge Graph
 
-The vault at `~/.soul/` stores structured entries as markdown files with YAML frontmatter. Each entry captures a moment with 7 queryable dimensions:
+The vault stores structured entries as markdown files with YAML frontmatter. Each entry captures a moment with 7 queryable dimensions:
 
 ```mermaid
 flowchart LR
-    Q([helix query]) ==> F{"Multi-Dimensional<br/>Filter"}
+    Q([Query]) ==> F{"Multi-Dimensional<br/>Filter"}
 
     F --> SIG>"significance<br/>0.0 – 10.0"]
-    F --> STR>"strands<br/>classification dims"]
-    F --> EMO>"sentiment<br/>affective tags"]
-    F --> THM>"themes<br/>conceptual tags"]
-    F --> EPO>"epoch<br/>time period"]
-    F --> SD>"self_defining<br/>true / false"]
-    F --> CON>"convergence<br/>cross-agent score"]
+    F --> STR>"strands"]
+    F --> EMO>"sentiment"]
+    F --> THM>"themes"]
+    F --> EPO>"epoch"]
+    F --> SD>"self_defining"]
+    F --> CON>"convergence"]
 
     SIG & STR & EMO & THM & EPO & SD & CON ==> R[("Matching<br/>Entries")]
 
@@ -101,28 +97,6 @@ flowchart LR
     class F filter
     class SIG,STR,EMO,THM,EPO,SD,CON dim
     class R result
-```
-
-### Generation Pipeline
-
-Prompt generation follows a 5-phase reflective cycle:
-
-```mermaid
-flowchart LR
-    A([Classify]) ==> B([Plan]) ==> C[Generate]
-    C ==> D{Reflect}
-    D -->|"self-critique"| C
-    D ==>|"pass"| E([Emit])
-
-    classDef phase fill:#6c5ce7,color:#fff,stroke:#5a4bd6,stroke-width:2px
-    classDef gen fill:#0984e3,color:#fff,stroke:#0873c4,stroke-width:2px
-    classDef gate fill:#d63031,color:#fff,stroke:#b52828,stroke-width:2px
-    classDef output fill:#00b894,color:#fff,stroke:#009a7d,stroke-width:2px
-
-    class A,B phase
-    class C gen
-    class D gate
-    class E output
 ```
 
 ## Plugin Structure
@@ -159,7 +133,7 @@ flowchart LR
 
 ## Tech Stack
 
-- **Language**: Rust (4-crate workspace, single binary, ~8MB)
+- **Language**: Rust (multi-crate workspace, single binary, ~8MB)
 - **Protocol**: MCP over stdio (JSON-RPC 2.0)
 - **Storage**: Filesystem vault with YAML frontmatter (Obsidian-compatible)
 - **Voice**: ElevenLabs TTS integration (optional)
