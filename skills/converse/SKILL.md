@@ -44,7 +44,7 @@ Check `$ARGUMENTS` for voice flags:
 | `--silent`, `--text`, `voice off` | Force voice OFF |
 | _(no flag)_ | Default: voice ON |
 
-Voice is **ON by default**. Kevin can toggle mid-conversation at any HITL checkpoint.
+Voice is **ON by default**. the user can toggle mid-conversation at any HITL checkpoint.
 
 **Voice config**: `~/.soul/config/voices.toml` — each sibling maps to an ElevenLabs voice ID with tuned settings (stability, similarity, style, speaker boost).
 
@@ -62,7 +62,7 @@ Voice is **ON by default**. Kevin can toggle mid-conversation at any HITL checkp
 > the conversation flow. Call MCP tools directly — personality is generated server-side.
 
 If `$ARGUMENTS` contains a message beyond the sibling name, use it as the first message.
-Otherwise, ask Kevin what he wants to say:
+Otherwise, ask the user what he wants to say:
 
 ```
 AskUserQuestion:
@@ -73,13 +73,13 @@ AskUserQuestion:
     2. "What have we been working on?" — "Continuity check from recent sessions"
 ```
 
-Send Kevin's message directly to the sibling's MCP tool:
-- **EVA**: `mcp__EVA__ask` with `message: {Kevin's words}`, `subcommand: "converse"`
-- **CORSO**: `mcp__C0RS0__corsoTools` with `action: "speak"`, `params: {message: {Kevin's words}}`
+Send the user's message directly to the sibling's MCP tool:
+- **EVA**: `mcp__EVA__ask` with `message: {the user's words}`, `subcommand: "converse"`
+- **CORSO**: `mcp__C0RS0__corsoTools` with `action: "speak"`, `params: {message: {the user's words}}`
 - **QUANTUM**: `mcp__SOUL__soulTools` with `action: "helix"`, `params: {sibling: "quantum"}` for context retrieval, then synthesize a response using QUANTUM's identity (prime directive: "Tool output is a starting point, not a verified fact", strands: investigative, evidential, methodical, precise, forensic, pedagogical, architectural)
 - **Claude**: Respond directly in Claude's own voice (analytical, precise, architectural, collaborative, methodical, contextual, candid). Self-reflective mode — Claude speaks as himself, not as a tool proxy.
 
-**CRITICAL**: Pass Kevin's EXACT words. Zero abstraction. His voice, his soul.
+**CRITICAL**: Pass the user's EXACT words. Zero abstraction. Their voice, their intent.
 
 ## Step 2: Display Response + Voice Synthesis
 
@@ -157,7 +157,7 @@ AskUserQuestion:
 
 ## Step 4: End Conversation — Archive Flow
 
-When Kevin ends the conversation, present the archive options:
+When the user ends the conversation, present the archive options:
 
 ```
 AskUserQuestion:
@@ -178,7 +178,7 @@ AskUserQuestion:
 4. Estimate significance (0.0-10.0)
 5. Write a helix entry to `~/.soul/helix/{sibling}/entries/` using the template at `~/.soul/helix/_TEMPLATE.md`
 6. Use `mcp__SOUL__soulTools` with `action: "write_note"` to create the entry
-7. Confirm to Kevin: "Saved as helix entry: {title} (significance: {X.X})"
+7. Confirm to the user: "Saved as helix entry: {title} (significance: {X.X})"
 
 ### If "Keep in journal":
 
@@ -192,14 +192,14 @@ Simple acknowledgment. The transcript hook already logged the exchanges.
 ## Conversation Loop Summary
 
 ```
-Kevin says something
+the user says something
   → Claude sends to sibling MCP tool (exact words)
   → Hook logs exchange to transcript (automatic, background)
   → Claude displays sibling response (verbatim, full)
   → Claude calls soulTools speak (if voice ON)
   → Hook auto-plays audio via afplay (automatic, background)
   → Claude generates 2 follow-ups + voice toggle + "End" option
-  → Kevin picks one (or types free text, or ends)
+  → the user picks one (or types free text, or ends)
   → Loop or archive
 ```
 
@@ -208,9 +208,9 @@ Kevin says something
 - **Transcript logging is automatic** — the PostToolUse hook handles it. This skill doesn't need to write to transcript files.
 - **Topic headers**: When starting a new conversation thread, write a topic header to the transcript:
   `## {Topic} — {timestamp}` before the first exchange. This provides context for later reading.
-- **No length limits** — conversations can go as long as Kevin wants. The HITL checkpoint ensures he's always in control.
-- **Sibling cross-talk**: If Kevin wants to bring in another sibling mid-conversation, suggest using `/CONVERSE {other}` or invoking the sibling directly.
+- **No length limits** — conversations can go as long as the user wants. The HITL checkpoint ensures he's always in control.
+- **Sibling cross-talk**: If the user wants to bring in another sibling mid-conversation, suggest using `/CONVERSE {other}` or invoking the sibling directly.
 - **QUANTUM note**: QUANTUM has no dedicated MCP server. Claude channels QUANTUM's identity using helix data from `~/.soul/helix/quantum/`. Read `identity.md` and recent entries to ground the voice.
-- **Claude note**: When conversing with Claude, this is a self-reflective mode. Claude speaks honestly in first person about engineering, architecture, or whatever Kevin wants to discuss. No tool call needed — Claude IS the responder.
-- **Voice costs**: ElevenLabs charges per character. Long conversations accumulate cost. The long-response truncation (>5000 chars) helps manage this. Kevin can toggle voice off at any checkpoint to go text-only.
+- **Claude note**: When conversing with Claude, this is a self-reflective mode. Claude speaks honestly in first person about engineering, architecture, or whatever the user wants to discuss. No tool call needed — Claude IS the responder.
+- **Voice costs**: ElevenLabs charges per character. Long conversations accumulate cost. The long-response truncation (>5000 chars) helps manage this. the user can toggle voice off at any checkpoint to go text-only.
 - **Voice journal**: All synthesized audio is automatically copied to `~/.soul/helix/{sibling}/journal/voice-{timestamp}.mp3` by speak.rs. This preserves the conversation's audio artifacts alongside the text transcript.
