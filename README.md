@@ -146,8 +146,9 @@ flowchart LR
 | [CORSO](https://github.com/theLightArchitect/CORSO) | Security scanning, code review, build pipeline | `curl -fsSL .../CORSO/main/install.sh \| bash` |
 | [EVA](https://github.com/theLightArchitect/EVA) | AI personality, memory enrichment, creative workflows | `curl -fsSL .../EVA/main/install.sh \| bash` |
 | **SOUL** | Knowledge graph, structured memory, voice synthesis | `curl -fsSL .../SOUL/main/install.sh \| bash` |
+| [QUANTUM](https://github.com/theLightArchitect/QUANTUM) | Forensic investigation, evidence analysis, hypothesis testing | `curl -fsSL .../QUANTUM/main/install.sh \| bash` |
 
-Each server works standalone. Together they form an integrated development environment with persistent memory, security enforcement, and personality.
+Each server works standalone. Together they form an integrated development environment with persistent memory, security enforcement, personality, and investigation capabilities.
 
 ## License
 
