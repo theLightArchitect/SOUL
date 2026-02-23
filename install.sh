@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-# SOUL Installer — Knowledge graph MCP server for Claude Code
+# SOUL Standalone Installer — Knowledge graph MCP server for Claude Code
+#
+# Recommended: Install via Claude Code plugin instead:
+#   claude plugins install theLightArchitect/SOUL
+#
+# This script downloads the binary from GitHub Releases for standalone use.
 # Usage: curl -fsSL https://raw.githubusercontent.com/theLightArchitect/SOUL/main/install.sh | bash
 set -euo pipefail
 
@@ -133,9 +138,12 @@ cat <<EOF
   Binary: $INSTALL_DIR/$BINARY_NAME
   Vault:  $VAULT_ROOT/
 
-  Next steps:
+  Note: For the full experience (agent, hooks, skills, vault init), use the plugin:
+    claude plugins install theLightArchitect/SOUL
 
-  1. Add SOUL to Claude Code:
+  To use this standalone binary, add to Claude Code:
+
+  1. Quick setup:
 
      claude mcp add SOUL -- $INSTALL_DIR/$BINARY_NAME
 
@@ -155,8 +163,5 @@ cat <<EOF
      "Show vault statistics"
      "Search the vault for trust"
      "Query self-defining helix entries"
-
-  Note: The soul-init.sh hook will bootstrap Claude's identity
-  and helix structure on your first Claude Code session.
 
 EOF
