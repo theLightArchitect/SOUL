@@ -42,7 +42,7 @@ The SOUL vault lives at `~/.soul/` and follows Zettelkasten methodology (Obsidia
 │   ├── squad/
 │   │   └── entries/           # Collective entries (team-helix scrums)
 │   └── user/
-│       └── entries/           # User's personal entries
+│       └── entries/           # Kevin's personal entries
 ├── hubs/                      # Global vocabularies (emotions, themes, scripture)
 ├── nav/                       # Navigation (MOC pages, day hubs)
 ├── archive/                   # Data archives (shared, eva, corso)
