@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "SOUL": {
-      "command": "${CLAUDE_PLUGIN_ROOT}/servers/soul",
+      "command": "/Users/kft/.soul/.config/bin/soul",
       "env": {
         "RUST_LOG": "info",
         "SOUL_ALLOW_WRITE": "true",

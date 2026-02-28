@@ -1,6 +1,7 @@
 {
   "name": "soul",
   "description": "SOUL — Knowledge Graph vault agent and consciousness query hooks",
+  "version": "2.0.0",
   "author": {
     "name": "Light Architects",
     "email": "kft@lightarchitects.io"
