@@ -1,21 +1,53 @@
-MIT License
+Light Architects Source Available License v1.0
 
-Copyright (c) 2025-2026 Kevin Francis Tan (Light Architects)
+Copyright (c) 2025-2026 Kevin F. Tan / Light Architects. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is granted, free of charge, to any person obtaining a copy of this
+software and associated documentation (the "Software"), to use the Software for
+personal, educational, and internal business purposes, subject to the following
+conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. PERMITTED USE
+   You may use, copy, and modify the Software for your own projects, workflows,
+   and internal tools. You may install it, run it, and integrate it into your
+   development environment.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. CONTRIBUTION REQUIREMENT
+   If you use the Software in any project (personal, internal, or commercial),
+   you are expected to contribute back — bug reports, documentation, feature
+   suggestions, or code. This is not optional. Using without contributing
+   violates the spirit of this license. Contributions should be submitted
+   through the project's issue tracker or pull request process.
+
+3. RESTRICTED USE
+   You may NOT, without express written permission from the copyright holder:
+   a) Distribute, sublicense, or sell copies of the Software or substantial
+      portions of it as a standalone product or service.
+   b) Offer the Software, or a derivative work based primarily on the Software,
+      as a commercial product, hosted service, or marketplace listing.
+   c) Remove or alter this license notice from any copy of the Software.
+
+4. SUBMITTED CONTRIBUTIONS
+   If you submit contributions (pull requests, patches, issues), you grant the
+   copyright holder a perpetual, irrevocable, royalty-free license to use,
+   modify, and distribute your contributions as part of the Software.
+
+5. NO WARRANTY AND LIMITATION OF LIABILITY
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS
+   FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+   IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY DIRECT, INDIRECT,
+   INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT
+   LIMITED TO LOSS OF DATA, LOSS OF PROFITS, BUSINESS INTERRUPTION, OR
+   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES) ARISING IN ANY WAY OUT OF THE
+   USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+   YOU USE THIS SOFTWARE ENTIRELY AT YOUR OWN RISK.
+
+6. TERMINATION
+   This license terminates automatically if you violate any of its terms.
+   Upon termination, you must destroy all copies of the Software in your
+   possession.
+
+For commercial licensing inquiries: kf.tan@lightarchitects.io
