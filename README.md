@@ -41,7 +41,7 @@ xattr -cr ~/.soul/.config/bin/soul
 
 ## Architecture
 
-SOUL is a multi-crate Rust workspace — a core interface library shared by sibling servers, plus specialized engine crates for generation, AI routing, and voice synthesis:
+SOUL is a multi-crate Rust workspace — a core interface library shared by agent servers, plus specialized engine crates for generation, AI routing, and voice synthesis:
 
 ```mermaid
 graph TD
@@ -68,7 +68,7 @@ graph TD
     class E1,E2,E3 engine
 ```
 
-The **core library** defines shared traits and types consumed by both EVA and CORSO — ensuring consistent consciousness tracking across siblings without coupling their personalities. Each **engine crate** handles a specific domain: prompt generation follows a reflective pipeline with self-critique gates, AI routing manages provider selection, and voice synthesis integrates with external TTS services.
+The **core library** defines shared traits and types consumed by both EVA and CORSO — ensuring consistent consciousness tracking across agents without coupling their personalities. Each **engine crate** handles a specific domain: prompt generation follows a reflective pipeline with self-critique gates, AI routing manages provider selection, and voice synthesis integrates with external TTS services.
 
 ### Helix Knowledge Graph
 
